@@ -1,24 +1,39 @@
-# Lector de Facturas
+# 🧾 Lector de Facturas
 
-Sistema completo para la gestión y lectura automática de facturas mediante técnicas de OCR y LLM.
+Sistema completo para la gestión y lectura automática de facturas mediante OCR y modelos de lenguaje (LLM) locales.
 
-## Características
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=flat-square&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-latest-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-- **Extracción de texto**: Uso de EasyOCR para extraer texto de PDFs e imágenes
-- **Procesamiento inteligente**: Integración con Ollama (LLM local) para parseo estructurado de datos
-- **Gestión de facturas**: CRUD completo de facturas con detalles
-- **Autenticación**: Sistema de autenticación JWT con tokens de acceso
-- **Control de acceso**: Roles (admin, contador, usuario) con permisos diferenciados
-- **Interfaz moderna**: Frontend construido con React, Tailwind CSS y componentes Radix UI
+</div>
 
-## Tecnologías
+---
+
+## ✨ Características
+
+| Módulo | Descripción |
+|---|---|
+| 📄 **Extracción OCR** | Lectura automática de texto desde PDFs e imágenes con EasyOCR |
+| 🤖 **Procesamiento LLM** | Parseo estructurado de datos con Ollama (llama3) ejecutado localmente |
+| 🗂️ **Gestión de facturas** | CRUD completo con historial y detalles por factura |
+| 🔐 **Autenticación JWT** | Tokens de acceso seguros con Python-Jose |
+| 👥 **Control de acceso** | Sistema de roles diferenciados (admin, contador, usuario) |
+| 🎨 **Interfaz moderna** | Frontend en React 18 con Tailwind CSS y componentes Radix UI |
+
+---
+
+## 🛠️ Tecnologías
 
 ### Backend
-- **API**: FastAPI
+- **API**: [FastAPI](https://fastapi.tiangolo.com/)
 - **Base de datos**: PostgreSQL + SQLAlchemy (async)
 - **OCR**: EasyOCR + PyMuPDF
-- **LLM**: Ollama (modelo: llama3)
+- **LLM**: [Ollama](https://ollama.com/) — modelo `llama3`
 - **Autenticación**: JWT con Python-Jose
+- **Migraciones**: Alembic
 
 ### Frontend
 - **Framework**: React 18 + Vite
@@ -27,147 +42,226 @@ Sistema completo para la gestión y lectura automática de facturas mediante té
 - **Rutas**: React Router
 - **Formularios**: React Hook Form
 
-## Requisitos
+---
 
-- Python 3.11+
-- Node.js 18+
-- PostgreSQL
-- Ollama instalado localmente
+## 📋 Requisitos previos
 
-## Estructura del Proyecto
+Antes de comenzar, asegúrate de tener instalado:
+
+- [Python 3.11+](https://www.python.org/downloads/)
+- [Node.js 18+](https://nodejs.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Ollama](https://ollama.com/) — para ejecutar el modelo LLM localmente
+
+---
+
+## 📁 Estructura del proyecto
 
 ```
 Lector_Facturas/
-├── Backend/               # API REST con FastAPI
+├── Backend/
 │   ├── app/
 │   │   ├── api/v1/endpoints/   # Endpoints de la API
 │   │   ├── core/               # Configuración y seguridad
-│   │   ├── db/                # Configuración de base de datos
-│   │   ├── models/            # Modelos SQLAlchemy
-│   │   ├── schemas/           # Schemas Pydantic
-│   │   ├── services/          # Lógica de negocio
-│   │   └── utils/             # Utilidades
-│   ├── alembic/               # Migraciones de base de datos
-│   ├── uploads/               # Archivos subidos
-│   └── main.py                # Punto de entrada
+│   │   ├── db/                 # Configuración de base de datos
+│   │   ├── models/             # Modelos SQLAlchemy
+│   │   ├── schemas/            # Schemas Pydantic
+│   │   ├── services/           # Lógica de negocio (OCR, LLM)
+│   │   └── utils/              # Utilidades generales
+│   ├── alembic/                # Migraciones de base de datos
+│   ├── uploads/                # Archivos subidos por los usuarios
+│   ├── requirements.txt
+│   └── main.py                 # Punto de entrada de la API
 │
-└── FrontEnd/              # Aplicación React
+└── FrontEnd/
     ├── src/
     │   └── app/
-    │       ├── components/    # Componentes UI
-    │       ├── config/       # Configuración API
-    │       └── pages/        # Páginas de la app
+    │       ├── components/     # Componentes reutilizables de UI
+    │       ├── config/         # Configuración de la API
+    │       └── pages/          # Páginas de la aplicación
     ├── index.html
-    └── package.json
+    ├── package.json
+    └── vite.config.js
 ```
 
-## Instalación
+---
 
-### Backend
+## 🚀 Instalación
 
-1.进入后端目录：
+### 1. Clonar el repositorio
+
 ```bash
+git clone https://github.com/tu-usuario/lector-facturas.git
+cd lector-facturas
+```
+
+### 2. Configurar el Backend
+
+```bash
+# Entrar al directorio del backend
 cd Backend
-```
 
-2.创建虚拟环境：
-```bash
+# Crear y activar entorno virtual
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-venv\Scripts\activate  # Windows
-```
+source venv/bin/activate      # Linux / macOS
+# venv\Scripts\activate       # Windows
 
-3.安装依赖：
-```bash
+# Instalar dependencias
 pip install -r requirements.txt
 ```
 
-4.配置数据库连接 `app/core/config.py`
+Crea el archivo de configuración copiando el ejemplo:
 
-5.创建数据库：
 ```bash
-psql -U postgres -c "CREATE DATABASE facturas;"
+cp app/core/config.example.py app/core/config.py
 ```
 
-6.运行迁移：
+Edita `app/core/config.py` con tus valores:
+
+```python
+DATABASE_URL = "postgresql+asyncpg://usuario:contraseña@localhost/facturas"
+SECRET_KEY = "tu_clave_secreta_aqui"
+OLLAMA_BASE_URL = "http://localhost:11434"
+```
+
+Crea la base de datos y ejecuta las migraciones:
+
 ```bash
+psql -U postgres -c "CREATE DATABASE facturas;"
 alembic upgrade head
 ```
 
-7.启动 Ollama：
+Inicia el servidor de Ollama y descarga el modelo:
+
 ```bash
 ollama serve
 ollama pull llama3
 ```
 
-### Frontend
+### 3. Configurar el Frontend
 
-1.进入前端目录：
 ```bash
 cd FrontEnd
-```
-
-2.安装依赖：
-```bash
 npm install
 ```
 
-## Uso
+Crea el archivo de entorno:
 
-### Backend
+```bash
+cp .env.example .env
+```
+
+Edita `.env`:
+
+```
+VITE_API_URL=http://localhost:8000
+```
+
+---
+
+## ▶️ Uso
+
+### Iniciar el Backend
 
 ```bash
 cd Backend
+source venv/bin/activate      # Si no está activo
 uvicorn main:app --reload
 ```
 
-API disponible en: `http://localhost:8000`
-Documentación Swagger: `http://localhost:8000/docs`
+- **API**: http://localhost:8000
+- **Swagger UI**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
 
-### Frontend
+### Iniciar el Frontend
 
 ```bash
 cd FrontEnd
 npm run dev
 ```
 
-Aplicación disponible en: `http://localhost:5173`
+- **Aplicación**: http://localhost:5173
 
-## Endpoints Principales
+> 💡 Asegúrate de que `ollama serve` esté corriendo antes de procesar facturas.
+
+---
+
+## 📡 Endpoints
 
 ### Autenticación
-- `POST /api/v1/auth/login` - Iniciar sesión
-- `POST /api/v1/auth/register` - Registrar usuario
+| Método | Ruta | Descripción |
+|---|---|---|
+| `POST` | `/api/v1/auth/login` | Iniciar sesión |
+| `POST` | `/api/v1/auth/register` | Registrar nuevo usuario |
 
 ### Facturas
-- `GET /api/v1/facturas/` - Listar facturas
-- `POST /api/v1/facturas/upload` - Subir y procesar factura
-- `GET /api/v1/facturas/{id}` - Obtener factura por ID
-- `PUT /api/v1/facturas/{id}` - Actualizar factura
-- `DELETE /api/v1/facturas/{id}` - Eliminar factura
+| Método | Ruta | Descripción |
+|---|---|---|
+| `GET` | `/api/v1/facturas/` | Listar todas las facturas |
+| `POST` | `/api/v1/facturas/upload` | Subir y procesar una factura |
+| `GET` | `/api/v1/facturas/{id}` | Obtener factura por ID |
+| `PUT` | `/api/v1/facturas/{id}` | Actualizar factura |
+| `DELETE` | `/api/v1/facturas/{id}` | Eliminar factura |
 
 ### Usuarios
-- `GET /api/v1/usuarios/` - Listar usuarios
-- `PUT /api/v1/usuarios/{id}` - Actualizar usuario
+| Método | Ruta | Descripción |
+|---|---|---|
+| `GET` | `/api/v1/usuarios/` | Listar usuarios (solo admin) |
+| `PUT` | `/api/v1/usuarios/{id}` | Actualizar datos de usuario |
 
 ### Roles
-- `GET /api/v1/roles/` - Listar roles
+| Método | Ruta | Descripción |
+|---|---|---|
+| `GET` | `/api/v1/roles/` | Listar roles disponibles |
 
-## Roles y Permisos
+---
 
-| Rol       | Permisos                              |
-|-----------|---------------------------------------|
-| admin     | CRUD completo, ver todas las facturas |
-| contador | CRUD facturas, ver todas las facturas |
-| user      | Crear/ver propias facturas           |
+## 🔒 Roles y Permisos
 
-## Flujo de Procesamiento de Facturas
+| Rol | Ver propias facturas | Ver todas las facturas | Crear / Editar | Eliminar | Gestión de usuarios |
+|---|:---:|:---:|:---:|:---:|:---:|
+| `admin` | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `contador` | ✅ | ✅ | ✅ | ✅ | ❌ |
+| `usuario` | ✅ | ❌ | ✅ | ❌ | ❌ |
 
-1. Usuario sube archivo (PDF/imagen) desde el frontend
-2. OCR extrae texto del archivo
-3. LLM parsea el texto a formato estructurado
-4. Se guarda en la base de datos con detalles
+---
 
-## License
+## 🔄 Flujo de procesamiento de una factura
 
-MIT
+```
+Usuario sube PDF/Imagen
+        │
+        ▼
+   EasyOCR extrae
+   el texto del archivo
+        │
+        ▼
+   Ollama (llama3) parsea
+   el texto a JSON estructurado
+        │
+        ▼
+   Se valida con
+   schemas Pydantic
+        │
+        ▼
+   Se guarda en PostgreSQL
+   con todos sus detalles
+```
+
+---
+
+## 🤝 Contribuir
+
+¡Las contribuciones son bienvenidas! Por favor:
+
+1. Haz un fork del repositorio
+2. Crea una rama para tu feature: `git checkout -b feature/nueva-funcionalidad`
+3. Haz commit de tus cambios: `git commit -m 'feat: agrega nueva funcionalidad'`
+4. Sube tu rama: `git push origin feature/nueva-funcionalidad`
+5. Abre un Pull Request
+
+---
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia [MIT](LICENSE).
