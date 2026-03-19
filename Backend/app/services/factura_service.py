@@ -99,7 +99,9 @@ class FacturaService:
         self.session.add(factura)
         await self.session.commit()
         await self.session.refresh(factura)
-        return factura
+        
+        # Volver a cargar la factura con su detalle para evitar error 'MissingGreenlet'
+        return await self.obtenerFactura_por_id(factura.id)
     
     async def eliminarFactura(self, id: int) -> bool:
         factura = await self.obtenerFactura_por_id(id)

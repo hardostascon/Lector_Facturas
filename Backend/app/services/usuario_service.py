@@ -51,7 +51,9 @@ class UsuarioService:
         self.session.add(db_usuario)
         await self.session.commit()
         await self.session.refresh(db_usuario)
-        return db_usuario
+        
+        # Volver a cargar el usuario con su rol para evitar el error 'MissingGreenlet' en la serialización
+        return await self.obtenerUsuario_por_id(db_usuario.id)
     
     async def actualizarUsuario(self, id: int, user_data: UsuarioUpdate) -> Optional[Usuario]:
         result = await self.session.execute(
@@ -74,7 +76,9 @@ class UsuarioService:
         
         await self.session.commit()
         await self.session.refresh(usuario)
-        return usuario
+        
+        # Volver a cargar el usuario con su rol para evitar error 'MissingGreenlet'
+        return await self.obtenerUsuario_por_id(usuario.id)
     
     async def eliminarUsuario(self, id: int) -> bool:
         result = await self.session.execute(

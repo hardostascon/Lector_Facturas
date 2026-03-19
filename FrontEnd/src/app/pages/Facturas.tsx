@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { apiRequest, uploadFile } from '../config/api';
+import { apiRequest, uploadFile, API_BASE_URL } from '../config/api';
 import { Trash2, X, Upload, Eye, Search, ChevronLeft, ChevronRight, Filter } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
@@ -116,7 +116,7 @@ export function Facturas() {
 
   const downloadFile = (factura: Factura) => {
     if (factura.archivo) {
-      window.open(factura.archivo, '_blank');
+      window.open(API_BASE_URL + '/' + factura.archivo, '_blank');
     }
   };
 

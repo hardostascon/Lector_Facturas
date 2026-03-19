@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import uvicorn
+import os
 
 from app.api.v1.endpoints import auth, facturas, usuario, roles
 from app.core.config import settings
@@ -22,6 +24,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Servir archivos estáticos (facturas PDF/JPG)
+# Nos aseguramos de que la carpeta uploads exista
+if not os.path.exists("uploads"):
+    os.makedirs("uploads")
+
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 # Registro de Routers
 app.include_router(auth.router, prefix=settings.API_V1_STR)
